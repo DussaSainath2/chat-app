@@ -1,0 +1,214 @@
+<div class="main-chat-layout">
+  <!-- Left: Online Users -->
+  <div class="online-users-wrapper">
+    <h1 class="title">👥 Online Users</h1>
+
+    <!-- Sorting Button -->
+    <div class="sort-container">
+      <button (click)="toggleSortOrder()" class="sort-btn">
+        Sort: {{ sortOrder === 'female-first' ? '👧 Females First' : '👦 Males First' }}
+      </button>
+    </div>
+
+    <!-- Users List -->
+    <ul class="user-list">
+      <li
+        *ngFor="let user of onlineUsers"
+        (click)="selectUser(user)"
+        class="user-item"
+        [ngClass]="(user.gender || '').toLowerCase().trim() === 'male' ? 'male-user' : 'female-user'"
+      >
+        <div
+          class="user-avatar"
+          [ngClass]="(user.gender || '').toLowerCase().trim() === 'male' ? 'avatar-male' : 'avatar-female'"
+        >
+          {{ (user.gender || '').toLowerCase().trim() === 'male' ? '👦' : '👧' }}
+        </div>
+
+        <div class="user-info">
+          <div class="user-row">
+            <span class="user-name">{{ user.name }}</span>
+            <span class="user-meta">{{ user.age }}</span>
+            <span class="user-meta">{{ user.gender }}</span>
+            <span class="user-meta">{{ user.country }}</span>
+          </div>
+        </div>
+
+        <div class="online-dot"></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<style>
+.main-chat-layout {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Left Sidebar */
+.online-users-wrapper {
+  width: 30%;
+  padding: 2rem;
+  background: linear-gradient(135deg, #dbeafe, #f8fafc);
+  border-right: 1px solid #e2e8f0;
+  overflow-y: auto;
+}
+
+/* Title */
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, #3b82f6, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sort Button */
+.sort-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+/* Row layout for info */
+.user-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+/* Style for each field */
+.user-name {
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 80px;
+}
+
+.user-meta {
+  color: #4b5563;
+  font-weight: 500;
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+.sort-btn {
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+}
+
+.sort-btn:hover {
+  transform: scale(1.05);
+}
+
+/* User List */
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  border-left: 6px solid transparent;
+  gap: 1rem;
+}
+
+.user-item:hover {
+  transform: translateY(-2px);
+  background-color: #f9fafb;
+}
+
+.male-user {
+  border-left-color: #3b82f6;
+}
+
+.female-user {
+  border-left-color: #ec4899;
+}
+
+/* Avatar */
+.user-avatar {
+  font-size: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 2px white;
+}
+
+.avatar-male {
+  background-color: #dbeafe;
+  border: 2px solid #3b82f6;
+}
+
+.avatar-female {
+  background-color: #fbcfe8;
+  border: 2px solid #ec4899;
+}
+
+/* Info */
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.user-meta {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Online Indicator */
+.online-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 2px white;
+}
+
+</style>

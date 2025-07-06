@@ -1,0 +1,35 @@
+<div class="chat-panel">
+  <ng-container *ngIf="currentUser && selectedUser; else placeholder">
+    <div class="chat-header">
+      💬 Chatting with <strong>{{ selectedUser.name }}</strong>
+    </div>
+
+    <div class="chat-messages" #messageContainer>
+      <div
+        *ngFor="let message of messages"
+        [ngClass]="{
+          'sent': message.from === currentUser.name,
+          'received': message.from !== currentUser.name
+        }"
+      >
+        <span>{{ message.text }}</span>
+      </div>
+    </div>
+
+    <form class="chat-input" (ngSubmit)="sendMessage()">
+      <input
+        [(ngModel)]="newMessage"
+        placeholder="Type your message..."
+        name="message"
+        required
+      />
+      <button type="submit">Send</button>
+    </form>
+  </ng-container>
+
+  <ng-template #placeholder>
+    <h2 class="text-center text-gray-600 mt-10">
+      👈 Select a user to start chatting
+    </h2>
+  </ng-template>
+</div>

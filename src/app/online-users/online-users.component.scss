@@ -1,0 +1,79 @@
+.user-box {
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.user-box-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  color: #2563eb;
+  background-color: #eff6ff;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.user-item:hover {
+  background-color: #e0f2fe;
+}
+
+.active-user {
+  background-color: #dbeafe;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.user-meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.online-indicator {
+  width: 10px;
+  height: 10px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}

@@ -1,0 +1,21 @@
+package com.example.controller;
+
+
+import java.util.Date;
+
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+
+import com.example.model.Message;
+
+@Controller
+public class ChatController {
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public Message sendMessage(Message message) {
+    	message.setTimestamp(new java.sql.Date(System.currentTimeMillis()));
+        return message; // persist this too
+    }
+}
