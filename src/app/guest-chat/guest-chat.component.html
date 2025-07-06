@@ -1,35 +1,162 @@
-<div class="chat-panel">
-  <ng-container *ngIf="currentUser && selectedUser; else placeholder">
-    <div class="chat-header">
-      💬 Chatting with <strong>{{ selectedUser.name }}</strong>
+<div class="chat-container">
+  <!-- Left Panel: Online Users -->
+  <div class="users-panel">
+    <div *ngIf="currentUser">
+      <app-online-users
+        [currentUser]="currentUser"
+        (userSelected)="selectUser($event)">
+      </app-online-users>
     </div>
+  </div>
 
-    <div class="chat-messages" #messageContainer>
-      <div
-        *ngFor="let message of messages"
-        [ngClass]="{
-          'sent': message.from === currentUser.name,
-          'received': message.from !== currentUser.name
-        }"
-      >
-        <span>{{ message.text }}</span>
+  <!-- Right Panel: Chat Panel -->
+  <div class="chat-panel">
+    <ng-container *ngIf="currentUser && selectedUser; else placeholder">
+      <div class="chat-header">
+        💬 Chatting with <strong>{{ selectedUser.name }}</strong>
       </div>
-    </div>
 
-    <form class="chat-input" (ngSubmit)="sendMessage()">
-      <input
-        [(ngModel)]="newMessage"
-        placeholder="Type your message..."
-        name="message"
-        required
-      />
-      <button type="submit">Send</button>
-    </form>
-  </ng-container>
+      <div class="chat-messages" #messageContainer>
+        <div
+          *ngFor="let message of messages"
+          [ngClass]="{
+            'sent': message.from === currentUser.name,
+            'received': message.from !== currentUser.name
+          }"
+          class="chat-bubble"
+        >
+          <span>{{ message.text }}</span>
+        </div>
+      </div>
 
-  <ng-template #placeholder>
-    <h2 class="text-center text-gray-600 mt-10">
-      👈 Select a user to start chatting
-    </h2>
-  </ng-template>
+      <form class="chat-input" (ngSubmit)="sendMessage()">
+        <input
+          [(ngModel)]="newMessage"
+          placeholder="Type your message..."
+          name="message"
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
+    </ng-container>
+
+    <ng-template #placeholder>
+      <h2 class="chat-placeholder">
+        👈 Select a user to start chatting
+      </h2>
+    </ng-template>
+  </div>
 </div>
+
+
+<style>
+.chat-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #f9fafb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.users-panel {
+  width: 50%;
+  border-right: 2px solid #e5e7eb;
+  overflow-y: auto;
+  background: linear-gradient(to bottom, #eef2ff, #fdf4ff);
+}
+
+.chat-panel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.chat-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.sent {
+  align-self: flex-end;
+  background: #e0f2fe;
+  color: #1e3a8a;
+  border-bottom-right-radius: 0;
+}
+
+.received {
+  align-self: flex-start;
+  background: #f3f4f6;
+  color: #374151;
+  border-bottom-left-radius: 0;
+}
+
+.chat-input {
+  display: flex;
+  gap: 0.5rem;
+  border-top: 2px solid #e5e7eb;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.chat-input input:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5);
+}
+
+.chat-input button {
+  padding: 0.75rem 1.2rem;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chat-input button:hover {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+}
+
+.chat-placeholder {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 4rem;
+  font-size: 1.1rem;
+}
+
+</style>

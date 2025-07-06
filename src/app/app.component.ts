@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { OnlineUsersComponent } from './online-users/online-users.component';
-
+/*
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -27,9 +27,8 @@ export class AppComponent {
     console.log('Selected user:', user);
   }
 }
+*/
 
-
-/*
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -37,10 +36,8 @@ export class AppComponent {
   template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent {}
-*/
 
-
-/*
+ /*
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { OnlineUsersComponent } from './online-users/online-users.component';

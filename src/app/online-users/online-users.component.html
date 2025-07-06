@@ -1,16 +1,8 @@
 <div class="main-chat-layout">
-  <!-- Left: Online Users -->
+  <!-- Sidebar: Online Users -->
   <div class="online-users-wrapper">
     <h1 class="title">👥 Online Users</h1>
 
-    <!-- Sorting Button -->
-    <div class="sort-container">
-      <button (click)="toggleSortOrder()" class="sort-btn">
-        Sort: {{ sortOrder === 'female-first' ? '👧 Females First' : '👦 Males First' }}
-      </button>
-    </div>
-
-    <!-- Users List -->
     <ul class="user-list">
       <li
         *ngFor="let user of onlineUsers"
@@ -26,11 +18,11 @@
         </div>
 
         <div class="user-info">
+          <div class="user-name">{{ user.name }}</div>
           <div class="user-row">
-            <span class="user-name">{{ user.name }}</span>
-            <span class="user-meta">{{ user.age }}</span>
-            <span class="user-meta">{{ user.gender }}</span>
-            <span class="user-meta">{{ user.country }}</span>
+            <span class="user-meta">🎂 {{ user.age }}</span>
+            <span class="user-meta">⚧️ {{ user.gender }}</span>
+            <span class="user-meta">🌍 {{ user.country }}</span>
           </div>
         </div>
 
@@ -40,113 +32,64 @@
   </div>
 </div>
 
-
 <style>
+/* Layout Container */
 .main-chat-layout {
   display: flex;
+  width: 100%;
   height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #f8fafc, #e0f2fe);
 }
 
 /* Left Sidebar */
 .online-users-wrapper {
-  width: 30%;
+  width: 40%;
   padding: 2rem;
-  background: linear-gradient(135deg, #dbeafe, #f8fafc);
-  border-right: 1px solid #e2e8f0;
+  background: linear-gradient(to bottom right, #eef2ff, #fdf4ff);
+  border-right: 2px solid #e5e7eb;
   overflow-y: auto;
+  box-shadow: inset -1px 0 5px rgba(0, 0, 0, 0.05);
 }
 
 /* Title */
 .title {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 900;
   text-align: center;
   margin-bottom: 2rem;
-  background: linear-gradient(to right, #3b82f6, #9333ea);
+  background: linear-gradient(to right, #6366f1, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Sort Button */
-.sort-container {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.user-info {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  padding-right: 1rem;
-}
-
-/* Row layout for info */
-.user-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  font-size: 0.95rem;
-}
-
-/* Style for each field */
-.user-name {
-  font-weight: 700;
-  color: #1f2937;
-  min-width: 80px;
-}
-
-.user-meta {
-  color: #4b5563;
-  font-weight: 500;
-  min-width: 80px;
-  white-space: nowrap;
-}
-
-.sort-btn {
-  background: linear-gradient(to right, #6366f1, #8b5cf6);
-  color: white;
-  padding: 0.6rem 1.2rem;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-  transition: all 0.3s ease;
-}
-
-.sort-btn:hover {
-  transform: scale(1.05);
 }
 
 /* User List */
 .user-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.2rem;
 }
 
+/* User Card */
 .user-item {
   display: flex;
   align-items: center;
+  gap: 1rem;
   padding: 1rem;
   background: #fff;
-  border-radius: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
-  position: relative;
+  border-radius: 1.2rem;
   border-left: 6px solid transparent;
-  gap: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .user-item:hover {
-  transform: translateY(-2px);
+  transform: scale(1.02);
   background-color: #f9fafb;
 }
 
@@ -160,55 +103,82 @@
 
 /* Avatar */
 .user-avatar {
-  font-size: 2rem;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: inset 0 0 0 2px white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .avatar-male {
-  background-color: #dbeafe;
+  background: #dbeafe;
   border: 2px solid #3b82f6;
+  box-shadow: 0 0 10px #3b82f655;
 }
 
 .avatar-female {
-  background-color: #fbcfe8;
+  background: #ffe4f0;
   border: 2px solid #ec4899;
+  box-shadow: 0 0 10px #ec489955;
 }
 
-/* Info */
+/* User Info */
 .user-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  justify-content: center;
 }
 
 .user-name {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #1f2937;
-  margin: 0;
+}
+
+.user-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
 }
 
 .user-meta {
-  font-size: 0.9rem;
+  background-color: #f3f4f6;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: #4b5563;
-  margin: 0;
+  white-space: nowrap;
 }
 
 /* Online Indicator */
 .online-dot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   width: 12px;
   height: 12px;
+  background-color: #10b981;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 2px white;
+  box-shadow: 0 0 0 2px #fff;
+  animation: pulse 1.5s infinite;
 }
 
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 0 rgba(16, 185, 129, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
 </style>

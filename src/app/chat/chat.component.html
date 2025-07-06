@@ -1,9 +1,13 @@
 <!-- chat.component.html -->
 
 <div class="chat-layout">
-  <!-- ✅ Online users list -->
+  <!-- ✅ Online users list 
+  
+  [currentUser]="currentUser"
+  
+  -->
   <app-online-users
-    [currentUser]="currentUser"
+    
     (userSelected)="selectUser($event)">
   </app-online-users>
 

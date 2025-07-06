@@ -1,8 +1,72 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { GuestUser } from '../models/guest-user';
+
+@Component({
+  selector: 'app-online-users',
+  standalone: true,
+  templateUrl: './online-users.component.html',
+  styleUrls: ['./online-users.component.scss'],
+  imports: [CommonModule],
+})
+export class OnlineUsersComponent implements OnInit {
+  onlineUsers: GuestUser[] = [];
+  isLoading = false;
+  errorMessage: string | null = null;
+
+  @Output() userSelected = new EventEmitter<GuestUser>();
+
+  constructor(private http: HttpClient) {
+    console.log('🛠️ OnlineUsersComponent initialized');
+  }
+
+  ngOnInit(): void {
+    this.fetchOnlineUsers();
+  }
+
+  fetchOnlineUsers(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    const url = 'http://127.0.0.1:8522/api/guest/online';
+    console.log('📡 Fetching online users from:', url);
+
+    this.http.get<GuestUser[]>(url).subscribe({
+      next: (users) => {
+        console.log('✅ Raw API response:', users);
+        this.onlineUsers = users;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('❌ Error fetching users:', err);
+        this.errorMessage = `Failed to load users: ${err.message || 'Unknown error'}`;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  selectUser(user: GuestUser): void {
+    this.userSelected.emit(user);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter
+  Component, Input, Output, EventEmitter
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -17,13 +81,21 @@ import { GuestUser } from '../models/guest-user';
 })
 export class OnlineUsersComponent {
   private _currentUser?: GuestUser;
+  onlineUsers: GuestUser[] = [];
+  originalUsers: GuestUser[] = [];
+  sortOrder: 'female-first' | 'male-first' = 'female-first';
+  isLoading = false;
+  errorMessage: string | null = null;
 
   @Input()
   set currentUser(user: GuestUser | undefined) {
     this._currentUser = user;
+    console.log('🛠️ OnlineUsersComponent currentUser set:', user);
+
     if (user?.id) {
-      console.log('✅ currentUser received via setter:', user);
-      this.fetchOnlineUsers();
+      setTimeout(() => this.fetchOnlineUsers(), 0);  // ✅ Delay fetch until change detection completes
+    } else {
+      this.errorMessage = 'No current user found.';
     }
   }
 
@@ -33,29 +105,38 @@ export class OnlineUsersComponent {
 
   @Output() userSelected = new EventEmitter<GuestUser>();
 
-  onlineUsers: GuestUser[] = [];
-  originalUsers: GuestUser[] = [];
-  sortOrder: 'female-first' | 'male-first' = 'female-first';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('🛠️ OnlineUsersComponent initialized');
+  }
 
   fetchOnlineUsers(): void {
-    const url = 'http://127.0.0.1:8522/api/guest/online'; // use IP to avoid potential localhost DNS issues
+    if (!this.currentUser?.id) {
+      console.warn('⚠️ currentUser not ready yet. Skipping fetch.');
+      return;
+    }
 
-    console.log('📡 Fetching online users from server...');
+    this.isLoading = true;
+    this.errorMessage = null;
+    const url = 'http://127.0.0.1:8522/api/guest/online';
+    console.log('📡 Fetching online users from:', url);
+    console.log('👤 Fetching with currentUser.id =', this.currentUser?.id);
 
     this.http.get<GuestUser[]>(url).subscribe({
       next: (users) => {
-        console.log('✅ Users fetched from backend:', users);
-        if (this.currentUser?.id) {
-          this.originalUsers = users.filter(u => u.id !== this.currentUser!.id);
-        } else {
-          this.originalUsers = users;
+        console.log('✅ Raw API response:', users);
+        this.originalUsers = users.filter(u => u.id !== this.currentUser?.id);
+
+        if (this.originalUsers.length === 0) {
+          this.errorMessage = 'No online users found.';
         }
+
         this.applySorting();
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('❌ Error fetching users:', err);
+        this.errorMessage = `Failed to load users: ${err.message || 'Unknown error'}`;
+        this.isLoading = false;
       },
     });
   }
@@ -78,6 +159,8 @@ export class OnlineUsersComponent {
                genderA === 'female' && genderB === 'male' ? 1 : 0;
       }
     });
+
+    console.log('🛠️ Users sorted:', this.onlineUsers);
   }
 
   selectUser(user: GuestUser): void {
@@ -85,11 +168,8 @@ export class OnlineUsersComponent {
   }
 
   getCountryFlag(country: string): string {
-    if (!country) return '';
     const code = this.countryCodeFromName(country);
-    return code
-      ? String.fromCodePoint(...[...code.toUpperCase()].map(c => 127397 + c.charCodeAt(0)))
-      : '';
+    return code ? String.fromCodePoint(...[...code.toUpperCase()].map(c => 127397 + c.charCodeAt(0))) : '';
   }
 
   countryCodeFromName(name: string): string {
@@ -104,3 +184,4 @@ export class OnlineUsersComponent {
     return map[name] || '';
   }
 }
+*/
